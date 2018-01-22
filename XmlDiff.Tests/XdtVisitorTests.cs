@@ -64,6 +64,9 @@ namespace XmlDiff.Tests
             Assert.IsNull(_FindXdtAttribute(children.Last(), "Locator"));
         }
 
+        // TODO: check that inserted elements have all their children, with no xdt attrs
+        // check removing a non unique element creates a remove transform in the right place and not many updates followed by a remove
+
         [Test]
         public void Xdt_TestRemoveUniqueElement()
         {
@@ -81,6 +84,8 @@ namespace XmlDiff.Tests
             // removed element should have a Transform but as it is unique, no Locator
             Assert.AreEqual(_FindXdtAttribute(result.Root.Element("appSettings"), "Transform").Value, "Remove");
             Assert.IsNull(_FindXdtAttribute(result.Root.Element("appSettings"), "Locator"));
+            // as it is being removed, it should have no children in the xdt
+            Assert.IsFalse(result.Root.Element("appSettings").HasElements);
         }
 
         [Test]
